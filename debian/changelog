@@ -1,0 +1,10 @@
+calamares-settings-sky1 (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+  * Sky1 Linux branding for Calamares installer
+  * ARM64 UEFI boot configuration with grub-efi
+  * GPT partitioning with ext4 default filesystem
+  * Post-install hook for DKMS module building
+  * Integration with Sky1 Linux apt repository
+
+ -- Entrpi <entrpi@proton.me>  Thu, 19 Dec 2024 12:00:00 +0000

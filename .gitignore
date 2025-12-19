@@ -1,0 +1,8 @@
+debian/.debhelper/
+debian/calamares-settings-sky1/
+debian/*.substvars
+debian/debhelper-build-stamp
+debian/files
+*.deb
+*.buildinfo
+*.changes

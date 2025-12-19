@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -d $(CURDIR)/debian/calamares-settings-sky1
+	cp -a etc $(CURDIR)/debian/calamares-settings-sky1/
+	cp -a usr $(CURDIR)/debian/calamares-settings-sky1/

@@ -1,0 +1,39 @@
+---
+componentName: sky1
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: normal
+windowSize: 800px,580px
+windowPlacement: center
+
+strings:
+    productName:         Sky1 Linux
+    shortProductName:    Sky1
+    version:             1.0
+    shortVersion:        1.0
+    versionedName:       Sky1 Linux 1.0
+    shortVersionedName:  Sky1 1.0
+    bootloaderEntryName: Sky1 Linux
+    productUrl:          https://github.com/Sky1-Linux
+    supportUrl:          https://github.com/Sky1-Linux/apt/issues
+    knownIssuesUrl:      https://github.com/Sky1-Linux/apt/issues
+    releaseNotesUrl:     https://github.com/Sky1-Linux/apt
+    donateUrl:           https://github.com/Sky1-Linux
+
+sidebar: widget
+navigation: widget
+
+images:
+    productLogo:    "sky1-logo.png"
+    productIcon:    "sky1-logo.png"
+    productWelcome: "welcome.png"
+
+slideshow: "show.qml"
+
+style:
+   SidebarBackground:    "#1e3a5f"
+   SidebarText:          "#ffffff"
+   SidebarTextCurrent:   "#ffffff"
+   SidebarBackgroundCurrent: "#2d5a87"
+
+slideshowAPI: 2

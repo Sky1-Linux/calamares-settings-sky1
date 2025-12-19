@@ -1,0 +1,5 @@
+---
+type: job
+name: sky1-postinstall
+interface: process
+command: /usr/share/calamares/helpers/calamares-sky1-postinstall

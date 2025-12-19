@@ -1,0 +1,39 @@
+#!/bin/bash
+# Sky1 Linux post-installation tasks
+
+set -e
+
+CHROOT=$(mount | grep proc | grep calamares | awk '{print $3}' | sed -e "s#/proc##g")
+
+echo "Running Sky1 Linux post-installation tasks..."
+
+# Rebuild DKMS modules for the installed kernel
+KERNEL_VERSION=$(ls "$CHROOT/lib/modules/" | grep sky1 | head -1)
+
+if [ -n "$KERNEL_VERSION" ]; then
+    echo " * Rebuilding DKMS modules for kernel $KERNEL_VERSION..."
+
+    for mod in r8126 sky1-vpu; do
+        if chroot "$CHROOT" dkms status -m "$mod" 2>/dev/null | grep -q installed; then
+            echo "   - $mod already built"
+        elif chroot "$CHROOT" dpkg -l "${mod}-dkms" 2>/dev/null | grep -q "^ii"; then
+            echo "   - Building $mod..."
+            chroot "$CHROOT" dkms autoinstall -k "$KERNEL_VERSION" -m "$mod" || true
+        fi
+    done
+fi
+
+# Ensure firmware is in place
+if [ -d "$CHROOT/lib/firmware" ]; then
+    echo " * Verifying firmware installation..."
+fi
+
+# Update initramfs with any new modules
+echo " * Updating initramfs..."
+chroot "$CHROOT" update-initramfs -u -k all
+
+# Clean up apt cache to save space
+echo " * Cleaning up..."
+chroot "$CHROOT" apt-get clean
+
+echo "Post-installation complete."

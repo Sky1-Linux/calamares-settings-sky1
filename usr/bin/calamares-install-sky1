@@ -1,0 +1,11 @@
+#!/bin/bash
+# Sky1 Linux Calamares Installer Launcher
+
+set -e
+
+# Check if running as root
+if [ "$(id -u)" -eq 0 ]; then
+    exec /usr/bin/calamares "$@"
+else
+    exec pkexec /usr/bin/calamares "$@"
+fi

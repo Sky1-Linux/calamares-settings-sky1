@@ -1,0 +1,5 @@
+---
+type: job
+name: bootloader-config
+interface: process
+command: /usr/share/calamares/helpers/calamares-bootloader-config
