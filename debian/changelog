@@ -1,3 +1,9 @@
+calamares-settings-sky1 (1.0.2-1) unstable; urgency=medium
+
+  * Fix grub-probe by bind-mounting /dev in chroot before update-grub
+
+ -- Entrpi <entrpi@proton.me>  Thu, 26 Dec 2024 19:40:00 +0000
+
 calamares-settings-sky1 (1.0.1-1) unstable; urgency=medium
 
   * Fix grub-probe "failed to get canonical path" error during install
