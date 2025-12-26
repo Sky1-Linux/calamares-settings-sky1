@@ -25,7 +25,20 @@ fi
 # Enable os-prober for dual-boot detection
 sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" "$CHROOT/etc/default/grub"
 
+# Ensure /dev is bind-mounted for grub-probe to work
+MOUNTED_DEV=false
+if ! mountpoint -q "$CHROOT/dev"; then
+    echo " * Bind mounting /dev..."
+    mount --bind /dev "$CHROOT/dev"
+    MOUNTED_DEV=true
+fi
+
 # Update GRUB configuration
 chroot "$CHROOT" /usr/sbin/update-grub
+
+# Clean up bind mount if we created it
+if [ "$MOUNTED_DEV" = true ]; then
+    umount "$CHROOT/dev"
+fi
 
 echo "Bootloader configuration complete."
