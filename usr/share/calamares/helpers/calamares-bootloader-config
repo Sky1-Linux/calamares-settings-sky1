@@ -25,20 +25,44 @@ fi
 # Enable os-prober for dual-boot detection
 sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" "$CHROOT/etc/default/grub"
 
-# Ensure /dev is bind-mounted for grub-probe to work
+# Ensure necessary filesystems are bind-mounted for grub-probe to work
 MOUNTED_DEV=false
+MOUNTED_SYS=false
+MOUNTED_RUN=false
+
 if ! mountpoint -q "$CHROOT/dev"; then
     echo " * Bind mounting /dev..."
-    mount --bind /dev "$CHROOT/dev"
+    mount --rbind /dev "$CHROOT/dev"
+    mount --make-rslave "$CHROOT/dev"
     MOUNTED_DEV=true
+fi
+
+if ! mountpoint -q "$CHROOT/sys"; then
+    echo " * Bind mounting /sys..."
+    mount --rbind /sys "$CHROOT/sys"
+    mount --make-rslave "$CHROOT/sys"
+    MOUNTED_SYS=true
+fi
+
+if ! mountpoint -q "$CHROOT/run"; then
+    echo " * Bind mounting /run..."
+    mount --rbind /run "$CHROOT/run"
+    mount --make-rslave "$CHROOT/run"
+    MOUNTED_RUN=true
 fi
 
 # Update GRUB configuration
 chroot "$CHROOT" /usr/sbin/update-grub
 
-# Clean up bind mount if we created it
+# Clean up bind mounts if we created them (reverse order)
+if [ "$MOUNTED_RUN" = true ]; then
+    umount -R "$CHROOT/run" 2>/dev/null || true
+fi
+if [ "$MOUNTED_SYS" = true ]; then
+    umount -R "$CHROOT/sys" 2>/dev/null || true
+fi
 if [ "$MOUNTED_DEV" = true ]; then
-    umount "$CHROOT/dev"
+    umount -R "$CHROOT/dev" 2>/dev/null || true
 fi
 
 echo "Bootloader configuration complete."
